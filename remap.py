@@ -161,10 +161,7 @@ def remap(grid, points,
                 weighted_values.append(weight * value)
 
         mapped_grid = tf.add_n(weighted_values, name='interpolate')
-        if grid.dtype.is_integer:
-            mapped_grid = tf.clip_by_value(mapped_grid,
-                                           grid.dtype.min, grid.dtype.max)
-        mapped_grid = tf.cast(mapped_grid, grid.dtype)
+        mapped_grid = tf.dtypes.saturate_cast(mapped_grid, grid.dtype)
         return mapped_grid
 
 
